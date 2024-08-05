@@ -3,6 +3,8 @@ package com.web.localsender.service;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +19,8 @@ public class SftpService {
     private static final String SFTP_PASSWORD = "6021"; // пароль
     private static final String SFTP_UPLOAD_DIR = "/home/n0pr0blem/uploads"; // директория для загрузки
 
+    private Logger logger = LogManager.getLogger(SftpService.class);
+
     public void uploadFile(MultipartFile file) throws Exception {
         JSch jsch = new JSch();
         Session session = jsch.getSession(SFTP_USER, SFTP_HOST, SFTP_PORT);
@@ -28,6 +32,9 @@ public class SftpService {
 
         ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
         channelSftp.connect();
+
+        logger.info("File that will be saved: " + file.getOriginalFilename());
+        logger.warn("Is file empty? - "+file.isEmpty());
 
         try (InputStream inputStream = file.getInputStream()) {
             channelSftp.put(inputStream, SFTP_UPLOAD_DIR + "/" + file.getOriginalFilename());

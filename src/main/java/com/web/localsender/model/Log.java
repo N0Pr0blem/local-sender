@@ -1,18 +1,23 @@
 package com.web.localsender.model;
 
+import lombok.Setter;
+
 import java.util.Date;
 
 public class Log {
+    @Setter
+    private LogStatus status;
+    private String message;
+    private Date date;
 
-    String message;
-    Date date;
-
-    public Log(String message, Date date) {
+    public Log(String message) {
         this.message = message;
-        this.date = date;
+        this.date = new Date();
+        status = LogStatus.CREATED;
     }
+
     @Override
     public String toString() {
-        return date + ": " + message;
+        return date + ":\n " + message;
     }
 }

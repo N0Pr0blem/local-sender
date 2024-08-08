@@ -15,15 +15,20 @@ public class LogService {
     public ArrayList<Log> getAllCreatedLogs(){
         ArrayList<Log> createdLogs = new ArrayList<>();
         for(Log log : logs){
-            if(log.equals(LogStatus.CREATED)){
+            if(log.getStatus().equals(LogStatus.CREATED)){
                 createdLogs.add(log);
-                log.setStatus(LogStatus.DELIVERED);
             }
         }
         return createdLogs;
     }
 
-    public void addLog(String msg){
+    public void setAllAsDelivered(){
+        for(Log log : logs){
+            log.setStatus(LogStatus.DELIVERED);
+        }
+    }
+
+    public void add(String msg){
         logs.add(new Log(msg));
     }
 

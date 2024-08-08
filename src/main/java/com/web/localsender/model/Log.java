@@ -1,11 +1,13 @@
 package com.web.localsender.model;
 
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 
 public class Log {
     @Setter
+    @Getter
     private LogStatus status;
     private String message;
     private Date date;

@@ -5,6 +5,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +20,8 @@ public class SftpService {
     private static final String SFTP_PASSWORD = "6021"; // пароль
     private static final String SFTP_UPLOAD_DIR = "/home/n0pr0blem/uploads"; // директория для загрузки
 
-    private Logger logger = LogManager.getLogger(SftpService.class);
+    @Autowired
+    private LogService logService;
 
     public void uploadFile(MultipartFile file) throws Exception {
         JSch jsch = new JSch();
@@ -34,8 +36,7 @@ public class SftpService {
         ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
         channelSftp.connect();
 
-        logger.info("File that will be saved: " + file.getOriginalFilename());
-        logger.warn("Is file empty? - "+file.isEmpty());
+        logService.add("File that will be saved: \n" + file.getOriginalFilename() + "\nFile size: " + file.getSize()+"b");
 
         try (InputStream inputStream = file.getInputStream()) {
             channelSftp.put(inputStream, SFTP_UPLOAD_DIR + "/" + file.getOriginalFilename());

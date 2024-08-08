@@ -38,20 +38,22 @@ public class TelegramBot extends TelegramLongPollingBot {
             String msg = update.getMessage().getText();
             if (msg.equals("/start")) {
                 sendMessage("# Hello. \nMy commands: /start, /all, /get.");
-            } else if (msg.equals("/get")) {
-                if (!logService.getAllCreatedLogs().isEmpty()) {
-                    for (Log log : logService.getAllCreatedLogs()) {
-                        sendMessage(log.toString());
-                    }
-                } else {
-                    sendMessage("# We haven't created any logs");
-                }
             } else if (msg.equals("/all")) {
                 if (!logService.getAll().isEmpty()) {
                     for (Log log : logService.getAll()) {
                         sendMessage(log.toString());
                     }
                 } else {
+                    sendMessage("# We haven't got any logs");
+                }
+            } else if(msg.equals("/get")){
+                if (!logService.getAllCreatedLogs().isEmpty()) {
+                    for (Log log : logService.getAllCreatedLogs()) {
+                        sendMessage(log.toString());
+                    }
+                    logService.setAllAsDelivered();
+                }
+                else{
                     sendMessage("# We haven't got any logs");
                 }
             }

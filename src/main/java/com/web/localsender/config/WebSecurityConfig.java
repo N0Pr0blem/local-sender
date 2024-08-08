@@ -1,5 +1,7 @@
 package com.web.localsender.config;
 
+import com.web.localsender.service.CustomFailureHandler;
+import com.web.localsender.service.CustomSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,7 +27,9 @@ public class WebSecurityConfig {
                                 .anyRequest().permitAll())
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .permitAll())
+                        .permitAll()
+                        .successHandler(new CustomSuccessHandler())
+                        .failureHandler(new CustomFailureHandler()))
                 .logout((logout) -> logout.permitAll());
 
         return http.build();

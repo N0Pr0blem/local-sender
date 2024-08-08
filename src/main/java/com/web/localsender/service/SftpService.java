@@ -28,6 +28,7 @@ public class SftpService {
 
         // Установка свойств сессии
         session.setConfig("StrictHostKeyChecking", "no");
+        session.setTimeout(20000);
         session.connect();
 
         ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");

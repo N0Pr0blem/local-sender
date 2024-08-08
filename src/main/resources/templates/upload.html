@@ -12,7 +12,7 @@
 <link th:href="@{/../static/css/upload_style.css}" rel="stylesheet" type="text/css">
 <body class="d-flex justify-content-center align-items-center vh-100">
 <div class="text-center custom-container">
-    <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+    <form id="uploadForm" method="post" enctype="multipart/form-data" th:action="@{/upload}">
         <div class="header">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -51,6 +51,8 @@
         <br>
         <button class="btn btn-success" type="submit">Send</button>
     </form>
+
+    <progress id="progressBar" value="0" max="100"></progress>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

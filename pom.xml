@@ -67,6 +67,12 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version> <!-- Или другую подходящую версию -->
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

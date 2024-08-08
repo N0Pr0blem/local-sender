@@ -1,4 +1,4 @@
-package com.web.localsender.service;
+package com.web.localsender.handler;
 
 import jakarta.servlet.ServletException;
 import org.springframework.security.core.Authentication;

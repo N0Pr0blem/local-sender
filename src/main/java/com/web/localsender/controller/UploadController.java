@@ -2,6 +2,7 @@ package com.web.localsender.controller;
 
 import com.web.localsender.service.LogService;
 import com.web.localsender.service.SftpService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,25 +18,30 @@ public class UploadController {
     private LogService logService;
 
     @GetMapping
-    public String redirectToUpload(){
-        logService.add("User was redirected to upload form");
+    public String redirectToUpload(HttpServletRequest request){
+        String ip = request.getRemoteAddr();
+        logService.add(ip+": User was redirected to upload form");
         return "redirect:/upload";
     }
 
     @GetMapping("/upload")
-    public String upload(){
-        logService.add("Upload form was opened");
+    public String upload(HttpServletRequest request){
+        String ip = request.getRemoteAddr();
+        logService.add(ip+": Upload form was opened");
         return "upload";
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<String> handleFileUpload(
+            @RequestParam("file") MultipartFile file,
+            HttpServletRequest request) {
+        String ip = request.getRemoteAddr();
         try {
             sftpService.uploadFile(file);
-            logService.add("File uploaded successfully!");
+            logService.add(ip+": File uploaded successfully!");
             return ResponseEntity.ok("File uploaded successfully!");
         } catch (Exception e) {
-            logService.add("File upload failed: " + e.getMessage());
+            logService.add(ip+": File upload failed: " + e.getMessage());
             return ResponseEntity.badRequest().body("File upload failed: " + e.getMessage());
         }
     }

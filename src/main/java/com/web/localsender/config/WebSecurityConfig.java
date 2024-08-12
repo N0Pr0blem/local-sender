@@ -1,0 +1,52 @@
+package com.web.localsender.config;
+
+import com.web.localsender.handler.CustomFailureHandler;
+import com.web.localsender.handler.CustomSuccessHandler;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(
+                        (requests) -> requests
+                                .requestMatchers("/upload").authenticated()
+                                .anyRequest().permitAll())
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .permitAll()
+                        .successHandler(new CustomSuccessHandler())
+                        .failureHandler(new CustomFailureHandler()))
+                .logout((logout) -> logout.permitAll());
+
+        return http.build();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user =
+                User.withDefaultPasswordEncoder()
+                        .username("root")
+                        .password("root")
+                        .roles("UPLOADER")
+                        .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
+
+}
+
+

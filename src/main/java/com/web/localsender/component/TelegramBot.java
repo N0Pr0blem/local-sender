@@ -1,13 +1,10 @@
-package com.web.localsender.companent;
+package com.web.localsender.component;
 
 
 import com.web.localsender.config.BotConfig;
 import com.web.localsender.model.Log;
 import com.web.localsender.service.LogService;
-import com.web.localsender.service.SftpService;
 import lombok.AllArgsConstructor;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

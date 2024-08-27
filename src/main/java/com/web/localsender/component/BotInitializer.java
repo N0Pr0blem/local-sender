@@ -1,4 +1,4 @@
-package com.web.localsender.companent;
+package com.web.localsender.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
